@@ -177,7 +177,10 @@ class DocumentationSite {
         const searchContainer = document.createElement('div');
         searchContainer.className = 'search-container';
         searchContainer.innerHTML = `
-            <input type="text" class="search-input" placeholder="Search documentation..." aria-label="Search documentation">
+            <div class="search-input-wrapper">
+                <input type="text" class="search-input" placeholder="Search documentation..." aria-label="Search documentation">
+                <button class="search-clear-btn" aria-label="Clear search" title="Clear search">×</button>
+            </div>
             <div class="search-results"></div>
         `;
 
@@ -187,10 +190,18 @@ class DocumentationSite {
 
         const searchInput = searchContainer.querySelector('.search-input');
         const searchResults = searchContainer.querySelector('.search-results');
+        const clearBtn = searchContainer.querySelector('.search-clear-btn');
 
         // Simple search functionality
         searchInput.addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase().trim();
+            
+            // Show/hide clear button based on input content
+            if (e.target.value.length > 0) {
+                clearBtn.style.display = 'block';
+            } else {
+                clearBtn.style.display = 'none';
+            }
             
             if (query.length < 2) {
                 searchResults.innerHTML = '';
@@ -200,6 +211,15 @@ class DocumentationSite {
 
             const results = this.searchContent(query);
             this.displaySearchResults(results, searchResults);
+        });
+
+        // Clear button functionality
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            searchResults.innerHTML = '';
+            searchResults.style.display = 'none';
+            clearBtn.style.display = 'none';
+            searchInput.focus();
         });
 
         // Hide search results when clicking outside
