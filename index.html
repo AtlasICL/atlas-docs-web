@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlas Docs - Development Documentation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1>Atlas Docs</h1>
+                <p>Development Documentation</p>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Getting Started</h3>
+                <ul>
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Python</h3>
+                <ul>
+                    <li><a href="#python" class="nav-link">Overview</a></li>
+                    <li><a href="#python-updating" class="nav-link">Updating Python</a></li>
+                    <li><a href="#python-pip" class="nav-link">Using pip</a></li>
+                    <li><a href="#python-venv" class="nav-link">Virtual Environments</a></li>
+                    <li><a href="#python-compile" class="nav-link">Compiling Releases</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Git</h3>
+                <ul>
+                    <li><a href="#git" class="nav-link">Overview</a></li>
+                    <li><a href="#git-install" class="nav-link">Installation</a></li>
+                    <li><a href="#git-repo" class="nav-link">Creating Repos</a></li>
+                    <li><a href="#git-changes" class="nav-link">Making Changes</a></li>
+                    <li><a href="#git-github" class="nav-link">GitHub Integration</a></li>
+                    <li><a href="#git-config" class="nav-link">Configuration</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>SSH</h3>
+                <ul>
+                    <li><a href="#ssh" class="nav-link">Overview</a></li>
+                    <li><a href="#ssh-keys" class="nav-link">Generating Keys</a></li>
+                    <li><a href="#ssh-usage" class="nav-link">Using SSH</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <!-- Home Section -->
+                <section id="home" class="content-section active">
+                    <h1>Atlas Docs</h1>
+                    <p class="lead">Your comprehensive guide to development tools and workflows</p>
+                    
+                    <div class="cards-grid">
+                        <div class="card" onclick="showSection('python')">
+                            <div class="card-icon">🐍</div>
+                            <h3>Python</h3>
+                            <p>Python installation, pip management, virtual environments, and creating distributables</p>
+                        </div>
+                        
+                        <div class="card" onclick="showSection('git')">
+                            <div class="card-icon">📚</div>
+                            <h3>Git</h3>
+                            <p>Version control, GitHub integration, pull requests, and repository management</p>
+                        </div>
+                        
+                        <div class="card" onclick="showSection('ssh')">
+                            <div class="card-icon">🔐</div>
+                            <h3>SSH</h3>
+                            <p>SSH key generation, authentication, and secure connections</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Python Section -->
+                <section id="python" class="content-section">
+                    <h1>Python</h1>
+                    <div class="section-nav">
+                        <a href="#python-updating">Updating Python</a>
+                        <a href="#python-pip">Using pip</a>
+                        <a href="#python-venv">Virtual Environments</a>
+                        <a href="#python-compile">Compiling Releases</a>
+                    </div>
+                </section>
+
+                <section id="python-updating" class="content-section">
+                    <h2>Updating Python</h2>
+                    <p>Before updating python, it is a good idea to check your current version.<br>
+                    You can do this using:</p>
+                    
+                    <pre><code class="language-bash">> python --version
+Python 3.12.4</code></pre>
+                    
+                    <p>If your install is not up to date, go to the <a href="https://www.python.org/downloads/" target="_blank">official python page</a>, and download the latest version for Windows.<br>
+                    When running the installer, make sure to select the option to add python to PATH, as shown below.</p>
+                    
+                    <div class="image-container">
+                        <img src="../src/images/python_installer_options.png" alt="Python installer screenshot" />
+                        <p class="image-caption">Python installer options - make sure to check "Add Python to PATH"</p>
+                    </div>
+                    
+                    <p>In the installer, you will either see an option to 'Upgrade Now' or 'Install Now'.</p>
+                    
+                    <h3>For 'Upgrade Now':</h3>
+                    <p>If you see the option to 'Update Now', then good news! The installer detected your old version of python, and you can select upgrade. Once you follow the instructions on the installer, go back to your terminal and check the version of python again:</p>
+                    
+                    <pre><code class="language-bash">> python --version
+Python 3.13.0 (new version)</code></pre>
+                    
+                    <p>Now the update is complete!</p>
+                    
+                    <h3>For 'Install Now':</h3>
+                    <p>If you see the option to install instead of upgrade, that means the installer hasn't detected your old version of python. Not to worry. Simply follow the instructions in the installer. This will install the new version of python.</p>
+                    
+                    <p>At this point, if you are OK with having multiple versions of python installed on your machine at the same time, then you can log off. However, in my (limited) experience, this can create problems, such as pip linking to a specific version of python. Although these problems can be managed, we might as well avoid the problems entirely by only keeping the latest version installed, especially as backwards compatibility shouldn't be a problem.</p>
+                    
+                    <p>In order to see the different versions of python installed on your machine, run:</p>
+                    
+                    <pre><code class="language-bash">> py --list
+ -V:3.13 *        Python 3.13 (64-bit)
+ -V:3.12          Python 3.12 (64-bit)</code></pre>
+                    
+                    <p>Here you can see that I did successfully install 3.13, the new version, however the older version 3.12 is also installed. For reference, the asterisk indicates the default version.</p>
+                    
+                    <p>If I now want to uninstall python3.12, I can simply do so by uninstalling it in the Windows settings, just like I would a normal program.</p>
+                    
+                    <p>Once this has been done, you should be good to go! You can use the commands outlined earlier to check your installed version of python.</p>
+                    
+                    <div class="note">
+                        <strong>Note:</strong> after updating python, it is a good idea to also <a href="#python-pip">update pip</a>.
+                    </div>
+                </section>
+
+                <section id="python-pip" class="content-section">
+                    <h2>Using pip</h2>
+                    <p>pip is a package manager for python. We can use it to install packages we need to use. It is a good idea to read <a href="#python-venv">the section on virtual environments</a> before installing packages using pip.</p>
+                    
+                    <h3>Updating pip</h3>
+                    <p>You can update pip (itself) using:</p>
+                    <pre><code class="language-bash">python -m pip install --upgrade pip</code></pre>
+                    
+                    <h3>Libraries I use</h3>
+                    <div class="note">
+                        <strong>Note:</strong> it is good practice to install packages using <a href="#python-venv">virtual environments</a>, instead of installing them globally.
+                    </div>
+                    
+                    <ul>
+                        <li><strong>numpy:</strong> <code>python -m pip install numpy</code></li>
+                        <li><strong>pandas:</strong> <code>python -m pip install pandas</code></li>
+                        <li><strong>sklearn:</strong> <code>python -m pip install scikit-learn</code></li>
+                        <li><strong>matplotlib:</strong> <code>python -m pip install matplotlib</code></li>
+                        <li><strong>seaborn:</strong> <code>python -m pip install seaborn</code></li>
+                        <li><strong>jupyter:</strong> <code>python -m pip install notebook</code></li>
+                    </ul>
+                    
+                    <h3>Project requirements</h3>
+                    <p>It is common for a python project to list the pip packages it uses in a file named <code>requirements.txt</code>.<br>
+                    All required packages can be installed using:</p>
+                    <pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+                    
+                    <h3>Updating pip packages</h3>
+                    <p>To update libraries installed using pip, use: <code>pip install --upgrade package_name</code>.</p>
+                    
+                    <h3>Check installed packages and versions</h3>
+                    <p>To check the installed packages in your current environment, as well as their versions, use <code>python -m pip freeze</code>.</p>
+                    
+                    <h3>Check a specific package</h3>
+                    <p>To check whether a specific package is installed (and its version), use <code>pip show package_name</code>.</p>
+                </section>
+
+                <section id="python-venv" class="content-section">
+                    <h2>Virtual environments (venv)</h2>
+                    <p>Virtual environments, typically shortened to venvs, are an extremely useful tool in python. They allow you to install packages for one specific project without having them installed globally. They also create a recreatable and shareable environment for running your code.</p>
+                    
+                    <h3>Creating a venv</h3>
+                    <p>In order to create a virtual environment, navigate to the directory in which you would like to have the venv, then run:</p>
+                    <pre><code class="language-bash">python -m venv venv</code></pre>
+                    <div class="note">
+                        <strong>Note:</strong> once a venv has been created, it must be activated before it can be used.
+                    </div>
+                    
+                    <h3>Activating a venv</h3>
+                    <p>In order to activate a venv, we must run the activate script, located in the Scripts folder.<br>
+                    Since I use PowerShell on Windows, I run the Activate.ps1 script with:</p>
+                    <pre><code class="language-bash">./venv/Scripts/Activate.ps1</code></pre>
+                    
+                    <p>This is what it should look like. The <code>(venv)</code> at the beginning of the line indicates that your virtual environment is active.</p>
+                    
+                    <div class="image-container">
+                        <img src="../src/images/venv_activation.png" alt="Virtual environment activation example in PowerShell" />
+                        <p class="image-caption">Virtual environment activation in PowerShell</p>
+                    </div>
+                    
+                    <p>If you're using PowerShell, you might run into the error <code>...execution policy</code>.<br>
+                    If that is the case, run:</p>
+                    <pre><code class="language-bash">Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code></pre>
+                    
+                    <h3>Deactivating a venv</h3>
+                    <p>You can deactivate a venv with:</p>
+                    <pre><code class="language-bash">deactivate</code></pre>
+                </section>
+
+                <section id="python-compile" class="content-section">
+                    <h2>Compiling a release</h2>
+                    
+                    <h3>Installing PyInstaller</h3>
+                    <p>We can "compile" our python file into a system binary (.exe file) to publish as a distributable release.<br>
+                    In order to do this, we need the pyinstaller library.<br>
+                    To check whether it is already installed, use:</p>
+                    <pre><code class="language-bash">pip show pyinstaller</code></pre>
+                    
+                    <p>If it is installed, you should see:</p>
+                    <pre><code class="language-bash">> Name: pyinstaller
+> Version: 6.11.0
+> ...</code></pre>
+                    
+                    <p>Otherwise, install it using:</p>
+                    <pre><code class="language-bash">python -m pip install pyinstaller</code></pre>
+                    
+                    <h3>Creation of dist</h3>
+                    <p>Once this step is done, we can compile our python script using:</p>
+                    <pre><code class="language-bash">pyinstaller --onefile your_script.py</code></pre>
+                    
+                    <h4>Options:</h4>
+                    <ul>
+                        <li><code>--windowed</code> to omit the cli for a GUI application</li>
+                        <li><code>--icon=iconName.ico</code> to add a custom icon for the executable</li>
+                        <li><code>--name NameOfExecutable</code> to give the dist a custom name</li>
+                    </ul>
+                    
+                    <div class="note">
+                        <strong>Note:</strong> .ico file extension refers to an image format specifically used for icons to accommodate size scaling. You can use an online converter to get a .ico file (or generate it yourself in GIMP or otherwise).
+                    </div>
+                </section>
+
+                <!-- Git Section -->
+                <section id="git" class="content-section">
+                    <h1>Git</h1>
+                    <div class="section-nav">
+                        <a href="#git-install">Installation</a>
+                        <a href="#git-repo">Creating Repos</a>
+                        <a href="#git-changes">Making Changes</a>
+                        <a href="#git-github">GitHub Integration</a>
+                        <a href="#git-config">Configuration</a>
+                    </div>
+                </section>
+
+                <section id="git-install" class="content-section">
+                    <h2>Installing git</h2>
+                    <p>Download and install git from the <a href="https://git-scm.com/downloads/win" target="_blank">official website</a>.</p>
+                    
+                    <h3>Updating git</h3>
+                    <p>Check your current version by running:</p>
+                    <pre><code class="language-bash">git --version</code></pre>
+                    
+                    <p>If not up to date, download the latest version from the <a href="https://git-scm.com/downloads/win" target="_blank">official website</a>. This will automatically remove the previous version of git before installing the new one.<br>
+                    After installing, check you are up to date, by running <code>git --version</code> again.</p>
+                </section>
+
+                <section id="git-repo" class="content-section">
+                    <h2>Creating a repo</h2>
+                    <p>To create a repo, go to the directory you wish to make a git repo. In the terminal, run:</p>
+                    <pre><code class="language-bash">git init</code></pre>
+                    
+                    <p>This will initialise a git repo in that directory.<br>
+                    You can see a <code>.git</code> folder in directories managed with git.<br>
+                    A .git folder will be created, which Windows does not show you by default. I recommend checking the setting "show hidden files / folders" in the Windows file explorer to be able to see .git folders. This makes it easier, when using the file explorer GUI, to tell which directories are git repos, and which are not.<br>
+                    In Linux, you can view it using <code>ls -a</code>.</p>
+                    
+                    <p>You can check whether your git repo was correctly initialised by running:</p>
+                    <pre><code class="language-bash">git status</code></pre>
+                    
+                    <p>If you wish to change a local directory to <em>not</em> be managed by git, simply delete the .git folder for that directory.</p>
+                </section>
+
+                <section id="git-changes" class="content-section">
+                    <h2>Making changes</h2>
+                    <p>In order to save changes, you must first choose which files within the git repo you want to save. You can select all by using:</p>
+                    <pre><code class="language-bash">git add .</code></pre>
+                    
+                    <p>or choose specific files to stage with:</p>
+                    <pre><code class="language-bash">git add filename</code></pre>
+                    
+                    <p>Once files have been "added", they are <strong>staged</strong>.<br>
+                    Staged files can be committed by using:</p>
+                    <pre><code class="language-bash">git commit -m "commit message"</code></pre>
+                    
+                    <p>If, after staging certain files, you decide you do <em>not</em> want to commit them, you can unstage them with:</p>
+                    <pre><code class="language-bash">git reset</code></pre>
+                    
+                    <p>to unstage all staged files, or:</p>
+                    <pre><code class="language-bash">git reset filename</code></pre>
+                    
+                    <p>to unstage specific files.</p>
+                    
+                    <p>You can commit without making any changes (to mark a specific version / milestone) if you wish, using:</p>
+                    <pre><code class="language-bash">git commit --allow-empty -m "commit message"</code></pre>
+                </section>
+
+                <section id="git-github" class="content-section">
+                    <h2>Syncing with GitHub</h2>
+                    <p>It is useful to sync our git repos with external services such as GitHub. This is mainly for collaboration (but you can use it like I sometimes do, to 'sync' between different devices without using a cloud service).</p>
+                    
+                    <h3>Creating a GitHub repo</h3>
+                    <p>If you want to create a repo on GitHub, I usually create it on the GitHub website. Then, in the directory which I want to upload, I run <code>git init</code> (if not already initialised), and commit any changes if applicable. Then:</p>
+                    <pre><code class="language-bash">git remote add origin {link to GitHub repo}</code></pre>
+                    
+                    <p>and finally:</p>
+                    <pre><code class="language-bash">git push -u origin master</code></pre>
+                    
+                    <p>You can always view your remote origins using:</p>
+                    <pre><code class="language-bash">git remote -v</code></pre>
+                    
+                    <p>Remove a remote origin using:</p>
+                    <pre><code class="language-bash">git remote remove origin</code></pre>
+                    
+                    <h3>Cloning a repo</h3>
+                    <p>If a repo exists on GitHub, you can clone it to your device using:</p>
+                    <pre><code class="language-bash">git clone https://github.com/username/repo_name</code></pre>
+                    
+                    <div class="note">
+                        <strong>Note:</strong> if you are using ssh for authentication, the format is:
+                        <code>git clone git@github.com:username/repo_name</code>
+                    </div>
+                    
+                    <p>You can also clone a remote repo into a pre-existing local folder using:</p>
+                    <pre><code class="language-bash">git clone git@github.com:username/repo_name my_local_folder</code></pre>
+                    
+                    <h3>Uploading commits</h3>
+                    <p>To upload any local changes to GitHub, first commit, then:</p>
+                    <pre><code class="language-bash">git push</code></pre>
+                    
+                    <h3>Creating a pull request (PR)</h3>
+                    <p>A pull request is a request to merge changes you made to a different branch or repo. Put more simply, it is a request to push changes you made on one branch to another branch. The changes will be reviewed, and may (or may not) be merged.</p>
+                    
+                    <p>In order to create a pull request on GitHub, follow these steps:</p>
+                    <ol>
+                        <li>Fork the repository you wish to make changes to. This will create a "copy" (fork) of that repository, owned by you.</li>
+                        <li>Clone the fork you just created, using <code>git clone your_forked_repo_url</code>.</li>
+                        <li>Set up a remote upstream. This will allow you to sync changes from the original repository. In the directory of the forked repo, run <code>git remote add upstream original_repo_url</code>.</li>
+                        <li>Update your local repository:
+                            <pre><code class="language-bash">git fetch upstream
+git merge upstream/main</code></pre>
+                        </li>
+                        <li>Create and switch to a new branch, using <code>git checkout -b new_branch_name</code>.</li>
+                        <li>Make and commit your changes.</li>
+                        <li>Push these changes to your forked repository, using <code>git push origin new-branch-name</code>.</li>
+                        <li>Go to your forked repository on GitHub, where you will see a prompt to create a pull request. Fill in the necessary details, and create the PR.</li>
+                    </ol>
+                    
+                    <h3>GitHub credential management</h3>
+                    <p>To clone / make changes to private GitHub repositories, you must be signed in. GitHub no longer supports password-based authentication, so you can use <em>either</em> a personal access token (PAT) <em>or</em> authenticate using SSH (which I recommend).</p>
+                    
+                    <h4>PAT:</h4>
+                    <p>In order to create a PAT, go to the <a href="https://github.com/settings/tokens" target="_blank">GitHub tokens page</a>. Here, you can view any tokens already active for your account, or create new ones.<br>
+                    Once you have a PAT, when prompted to sign in, enter your username as your username, and the PAT as your password.<br>
+                    In order to avoid entering your PAT on every login prompt, use <code>git config --global credential.helper store</code>. After your first successful login, this will store your login credentials.</p>
+                    
+                    <h4>SSH:</h4>
+                    <p>If you want to use SSH instead, the first step is to create an SSH key <a href="#ssh-keys">see this section</a>.<br>
+                    Once you have an SSH key pair, go to your GitHub settings, and navigate to your SSH keys section (https://github.com/settings/keys). In this section, you can add your SSH key with the option "New SSH key". Simply add your public key, and you're good to go.</p>
+                    
+                    <div class="note">
+                        <strong>Important note:</strong> when authenticating using SSH, instead of using links of the form 
+                        <code>https://github.com/username/repo</code>
+                        you should instead use
+                        <code>git@github.com:username/repo</code>
+                        This applies for git clone {url}, and anywhere else you would normally input the repo url.
+                    </div>
+                    
+                    <h3>gitignore</h3>
+                    <p>We don't always want to upload everything to GitHub, whether that's because we have some sensitive files (API keys for instance), or because we have a bunch of .exe or .vscode files.<br>
+                    We can specify which particular files, or which types of files do not get managed by git in the .gitignore file.<br>
+                    Here is an example .gitignore file:</p>
+                    
+                    <pre><code class="language-gitignore">.exe
+.vscode
+testing/
+someAPIkey.txt</code></pre>
+                    
+                    <p>Alternatively, you can choose to ignore everything by default, and selectively add files to track using a <code>!</code> prefix:</p>
+                    
+                    <pre><code class="language-gitignore">*
+!main.py
+!images/
+!README.md
+!.gitignore</code></pre>
+                </section>
+
+                <section id="git-config" class="content-section">
+                    <h2>git config</h2>
+                    <p>Every commit has a name and email attached.</p>
+                    <ul>
+                        <li>to view user name: <code>git config --global user.name</code></li>
+                        <li>to set / change user name: <code>git config --global user.name "{yourName}"</code></li>
+                        <li>to view user email: <code>git config --global user.email</code></li>
+                        <li>to set / change user email: <code>git config --global user.email "{yourEmail}"</code></li>
+                    </ul>
+                </section>
+
+                <!-- SSH Section -->
+                <section id="ssh" class="content-section">
+                    <h1>SSH</h1>
+                    <div class="section-nav">
+                        <a href="#ssh-keys">Generating Keys</a>
+                        <a href="#ssh-usage">Using SSH</a>
+                    </div>
+                </section>
+
+                <section id="ssh-keys" class="content-section">
+                    <h2>Generating SSH keys</h2>
+                    <p>To generate an SSH key pair, run:</p>
+                    <pre><code class="language-bash">ssh-keygen -t ed25519 -C "your_email@example.com"</code></pre>
+                    
+                    <p>You can simply press Enter when prompted to accept the default location and filename.<br>
+                    By default, this will create a <code>.ssh</code> folder in your home directory, which contains 2 files.</p>
+                    
+                    <ul>
+                        <li><code>id_ed25519</code>: this is your <strong>private</strong> key</li>
+                        <li><code>id_ed25519.pub</code>: this is your <strong>public</strong> key</li>
+                    </ul>
+                    
+                    <p>If you see these have been created, then you have successfully generated an SSH key pair.</p>
+                    
+                    <div class="note">
+                        <strong>Note:</strong> on Linux, you must use <code>ls -a</code> instead of <code>ls</code> in order to see the <code>.ssh</code> folder. You can always navigate to it with <code>cd ~/.ssh</code>
+                    </div>
+                </section>
+
+                <section id="ssh-usage" class="content-section">
+                    <h2>Using SSH</h2>
+                    <div class="warning">
+                        <strong>Important:</strong> YOU SHOULD NEVER SHARE YOUR PRIVATE KEY! That's why it's called the <em>private</em> key.
+                    </div>
+                    
+                    <p>When authenticating using SSH, you will need to provide your public key to whichever service you are authenticating with (remote server, GitHub, etc...). "Providing" the key usually consists in copy-pasting it from your .pub file. Once your public key has been stored, your matching private key will effectively be your password.</p>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
