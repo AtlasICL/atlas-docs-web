@@ -338,37 +338,12 @@ function setupCodeCopyButtons() {
     });
 }
 
-// Theme toggle functionality
-function setupThemeToggle() {
-    const themeToggle = document.createElement('button');
-    themeToggle.className = 'theme-toggle';
-    themeToggle.innerHTML = '🌙';
-    themeToggle.title = 'Toggle theme';
-    
-    // Add theme toggle to sidebar header
-    const sidebarHeader = document.querySelector('.sidebar-header');
-    sidebarHeader.appendChild(themeToggle);
-    
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        const isLight = document.body.classList.contains('light-theme');
-        themeToggle.innerHTML = isLight ? '🌞' : '🌙';
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    });
-    
-    // Load saved theme
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-        document.body.classList.add('light-theme');
-        themeToggle.innerHTML = '🌞';
-    }
-}
+
 
 // Initialize the documentation site
 document.addEventListener('DOMContentLoaded', () => {
     window.docSite = new DocumentationSite();
     setupCodeCopyButtons();
-    setupThemeToggle();
     
     // Add loading animation
     document.body.classList.add('loaded');

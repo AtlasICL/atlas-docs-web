@@ -36,17 +36,7 @@
     --transition: all 0.2s ease-in-out;
 }
 
-/* Light theme variables */
-body.light-theme {
-    --background-color: #ffffff;
-    --surface-color: #f8fafc;
-    --surface-hover: #f1f5f9;
-    --text-primary: #1e293b;
-    --text-secondary: #475569;
-    --text-muted: #64748b;
-    --border-color: #e2e8f0;
-    --code-background: #f1f5f9;
-}
+
 
 html {
     scroll-behavior: smooth;
@@ -148,24 +138,7 @@ body.loaded {
     font-size: 0.875rem;
 }
 
-/* Theme toggle */
-.theme-toggle {
-    position: absolute;
-    top: -0.5rem;
-    right: 2rem;
-    background: none;
-    border: none;
-    font-size: 1.25rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: var(--border-radius);
-    transition: var(--transition);
-    line-height: 1.5rem;
-}
 
-.theme-toggle:hover {
-    background-color: var(--surface-hover);
-}
 
 /* Search functionality */
 .search-container {
@@ -737,7 +710,6 @@ pre code {
 .card:focus,
 .section-nav a:focus,
 .mobile-menu-toggle:focus,
-.theme-toggle:focus,
 .search-input:focus,
 .copy-code-btn:focus {
     outline: 2px solid var(--primary-color);
