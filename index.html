@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atlas Docs - Development Documentation</title>
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon.ico">
+    
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -31,7 +38,7 @@
                     <li><a href="#python-updating" class="nav-link">Updating Python</a></li>
                     <li><a href="#python-pip" class="nav-link">Using pip</a></li>
                     <li><a href="#python-venv" class="nav-link">Virtual Environments</a></li>
-                    <li><a href="#python-compile" class="nav-link">Compiling Releases</a></li>
+                    <li><a href="#python-compile" class="nav-link">Compiling a release</a></li>
                 </ul>
             </div>
             
@@ -93,7 +100,7 @@
                         <a href="#python-updating">Updating Python</a>
                         <a href="#python-pip">Using pip</a>
                         <a href="#python-venv">Virtual Environments</a>
-                        <a href="#python-compile">Compiling Releases</a>
+                        <a href="#python-compile">Compiling a release</a>
                     </div>
                 </section>
 
@@ -109,7 +116,7 @@ Python 3.12.4</code></pre>
                     When running the installer, make sure to select the option to add python to PATH, as shown below.</p>
                     
                     <div class="image-container">
-                        <img src="../src/images/python_installer_options.png" alt="Python installer screenshot" />
+                        <img src="src/images/python_installer_options.png" alt="Python installer screenshot" />
                         <p class="image-caption">Python installer options - make sure to check "Add Python to PATH"</p>
                     </div>
                     
@@ -201,7 +208,7 @@ Python 3.13.0 (new version)</code></pre>
                     <p>This is what it should look like. The <code>(venv)</code> at the beginning of the line indicates that your virtual environment is active.</p>
                     
                     <div class="image-container">
-                        <img src="../src/images/venv_activation.png" alt="Virtual environment activation example in PowerShell" />
+                        <img src="src/images/venv_activation.png" alt="Virtual environment activation example in PowerShell" />
                         <p class="image-caption">Virtual environment activation in PowerShell</p>
                     </div>
                     
@@ -231,7 +238,7 @@ Python 3.13.0 (new version)</code></pre>
                     <p>Otherwise, install it using:</p>
                     <pre><code class="language-bash">python -m pip install pyinstaller</code></pre>
                     
-                    <h3>Creation of dist</h3>
+                    <h3>Creating a distributable</h3>
                     <p>Once this step is done, we can compile our python script using:</p>
                     <pre><code class="language-bash">pyinstaller --onefile your_script.py</code></pre>
                     
@@ -243,7 +250,7 @@ Python 3.13.0 (new version)</code></pre>
                     </ul>
                     
                     <div class="note">
-                        <strong>Note:</strong> .ico file extension refers to an image format specifically used for icons to accommodate size scaling. You can use an online converter to get a .ico file (or generate it yourself in GIMP or otherwise).
+Note: .ico file extension refers to an image format specifically used for icons to accomodate size scaling. You can use an online converter to get a .ico file (or generate it yourself in GIMP or otherwise).
                     </div>
                 </section>
 
@@ -434,7 +441,7 @@ someAPIkey.txt</code></pre>
                         <li><code>id_ed25519.pub</code>: this is your <strong>public</strong> key</li>
                     </ul>
                     
-                    <p>If you see these have been created, then you have successfully generated an SSH key pair.</p>
+                    <p>If you see these have been created, then you have succesfully generated an SSH key pair.</p>
                     
                     <div class="note">
                         <strong>Note:</strong> on Linux, you must use <code>ls -a</code> instead of <code>ls</code> in order to see the <code>.ssh</code> folder. You can always navigate to it with <code>cd ~/.ssh</code>
