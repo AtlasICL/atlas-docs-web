@@ -127,6 +127,7 @@ class DocumentationSite {
             document.querySelector('.main-content').scrollTop = 0;
             
             this.updatePageTitle(sectionId);
+            this.updateBackButton(sectionId);
         }
     }
 
@@ -412,6 +413,70 @@ class DocumentationSite {
         } else {
             // Ensure browser history starts with a proper state
             history.replaceState({ section: 'home' }, '', '#home');
+        }
+    }
+
+    /**
+     * Updates the visibility and target of the back button based on current section.
+     * @param {string} sectionId - The ID of the current section
+     */
+    updateBackButton(sectionId) {
+        let backButton = document.querySelector('.back-button');
+        
+        // Create back button if it doesn't exist
+        if (!backButton) {
+            backButton = document.createElement('button');
+            backButton.className = 'back-button';
+            backButton.innerHTML = '← Back';
+            backButton.setAttribute('aria-label', 'Go back to section overview');
+            
+            // Insert in main content area, positioned to the left
+            const mainContent = document.querySelector('.main-content');
+            mainContent.insertBefore(backButton, mainContent.firstChild);
+            
+            // Add click handler
+            backButton.addEventListener('click', () => {
+                const targetSection = backButton.dataset.targetSection;
+                if (targetSection) {
+                    this.showSection(targetSection);
+                    const navLink = document.querySelector(`[href="#${targetSection}"]`);
+                    this.updateActiveNavLink(navLink);
+                }
+            });
+        }
+        
+        // Determine if we're in a subsection and what the parent section is
+        const subsectionPatterns = {
+            'python-updating': 'python',
+            'python-pip': 'python',
+            'python-venv': 'python',
+            'python-compile': 'python',
+            'git-install': 'git',
+            'git-repo': 'git',
+            'git-changes': 'git',
+            'git-github': 'git',
+            'git-config': 'git',
+            'ssh-keys': 'ssh',
+            'ssh-usage': 'ssh'
+        };
+        
+        const parentSection = subsectionPatterns[sectionId];
+        
+        if (parentSection) {
+            // Show back button and set target
+            backButton.style.display = 'block';
+            backButton.dataset.targetSection = parentSection;
+            
+            // Update button text based on parent section
+            const sectionNames = {
+                'python': 'Python',
+                'git': 'Git',
+                'ssh': 'SSH'
+            };
+            backButton.innerHTML = `← Back to ${sectionNames[parentSection]}`;
+        } else {
+            // Hide back button for main sections and home
+            backButton.style.display = 'none';
         }
     }
 }

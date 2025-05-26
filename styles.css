@@ -423,6 +423,37 @@ body.loaded {
     padding: 3rem 2rem;
 }
 
+/* Back button for subsections - positioned to the left of main content */
+.back-button {
+    display: none;
+    position: fixed;
+    left: calc(var(--sidebar-width) + 2.5rem);
+    top: 4rem;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-family);
+    z-index: 10;
+}
+
+.back-button:hover {
+    background-color: var(--surface-hover);
+    border-color: var(--primary-color);
+    color: var(--text-primary);
+    transform: translateX(-2px);
+}
+
+.back-button:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
 /* Section visibility management */
 .content-section {
     display: none;
@@ -719,9 +750,11 @@ pre code {
         margin-left: 0;
     }
     
-    .content-wrapper {
-        padding: 2rem 1.5rem;
-        margin-top: 4rem; /* Account for mobile toggle */
+    /* Reposition back button for tablet/mobile */
+    .back-button {
+        position: static;
+        margin: 0 0 1.5rem 0;
+        width: fit-content;
     }
 }
 
