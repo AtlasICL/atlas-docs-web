@@ -34,6 +34,23 @@ class DocumentationSite {
                 this.updateActiveNavLink(document.querySelector(`[href="#${targetSection}"]`));
             });
         });
+
+        // Handle all internal links (starting with #)
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a');
+            if (link && link.getAttribute('href') && link.getAttribute('href').startsWith('#')) {
+                // Skip if it's already handled by nav-link or section-nav
+                if (link.classList.contains('nav-link') || link.closest('.section-nav')) {
+                    return;
+                }
+                
+                e.preventDefault();
+                const targetSection = link.getAttribute('href').substring(1);
+                this.showSection(targetSection);
+                const navLink = document.querySelector(`[href="#${targetSection}"].nav-link`);
+                this.updateActiveNavLink(navLink);
+            }
+        });
     }
 
     showSection(sectionId) {
