@@ -14,6 +14,7 @@ class DocumentationSite {
      */
     init() {
         this.setupNavigation();
+        this.setupDropdownNavigation();
         this.setupMobileMenu();
         this.setupSmoothScrolling();
         this.setupKeyboardNavigation();
@@ -60,6 +61,49 @@ class DocumentationSite {
                 this.updateActiveNavLink(navLink);
             }
         });
+    }
+
+    /**
+     * Sets up dropdown functionality for navigation sections.
+     * Handles toggle buttons, animations, and accessibility attributes.
+     */
+    setupDropdownNavigation() {
+        document.querySelectorAll('.nav-section-toggle').forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.toggleNavSection(toggle);
+            });
+
+            // Add keyboard support for dropdown toggles
+            toggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.toggleNavSection(toggle);
+                }
+            });
+        });
+    }
+
+    /**
+     * Toggles the visibility of a navigation section.
+     * @param {HTMLElement} toggle - The toggle button element
+     */
+    toggleNavSection(toggle) {
+        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+        const targetId = toggle.getAttribute('aria-controls');
+        const targetSection = document.getElementById(targetId);
+
+        if (targetSection) {
+            // Update aria-expanded attribute
+            toggle.setAttribute('aria-expanded', !isExpanded);
+
+            // Toggle the collapsed class with smooth animation
+            if (isExpanded) {
+                targetSection.classList.add('collapsed');
+            } else {
+                targetSection.classList.remove('collapsed');
+            }
+        }
     }
 
     /**
@@ -196,17 +240,17 @@ class DocumentationSite {
                 }
             }
 
-            // Enable arrow key navigation when focused on nav links
-            if (e.target.classList.contains('nav-link')) {
-                const navLinks = Array.from(document.querySelectorAll('.nav-link'));
-                const currentIndex = navLinks.indexOf(e.target);
+            // Enable arrow key navigation when focused on nav links or toggle buttons
+            if (e.target.classList.contains('nav-link') || e.target.classList.contains('nav-section-toggle')) {
+                const focusableElements = Array.from(document.querySelectorAll('.nav-link, .nav-section-toggle'));
+                const currentIndex = focusableElements.indexOf(e.target);
 
-                if (e.key === 'ArrowDown' && currentIndex < navLinks.length - 1) {
+                if (e.key === 'ArrowDown' && currentIndex < focusableElements.length - 1) {
                     e.preventDefault();
-                    navLinks[currentIndex + 1].focus();
+                    focusableElements[currentIndex + 1].focus();
                 } else if (e.key === 'ArrowUp' && currentIndex > 0) {
                     e.preventDefault();
-                    navLinks[currentIndex - 1].focus();
+                    focusableElements[currentIndex - 1].focus();
                 }
             }
         });

@@ -283,8 +283,8 @@ body.loaded {
 
 /* Navigation sections and links */
 .nav-section {
-    margin-bottom: 2rem;
-    padding: 0 2rem;
+    margin-bottom: 1.5rem;
+    padding: 0 1.75rem;
 }
 
 .nav-section h3 {
@@ -293,7 +293,72 @@ body.loaded {
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Dropdown toggle buttons for navigation sections */
+.nav-section-toggle {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0.375rem 0;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: var(--transition);
+    border-radius: var(--border-radius);
+}
+
+.nav-section-toggle:hover {
+    background-color: var(--surface-hover);
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.nav-section-toggle:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.nav-section-toggle h3 {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.nav-toggle-icon {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    transition: transform 0.2s ease-in-out;
+    user-select: none;
+    margin-left: -0.25rem;
+}
+
+/* Rotate icon when section is collapsed */
+.nav-section-toggle[aria-expanded="false"] .nav-toggle-icon {
+    transform: rotate(-90deg);
+}
+
+/* Subsection lists with smooth animations */
+.nav-subsection {
+    list-style: none;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
+    max-height: 500px; /* Generous max-height for open state */
+    opacity: 1;
+    padding: 0.25rem 0;
+}
+
+.nav-subsection.collapsed {
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    padding: 0;
 }
 
 .nav-section ul {
@@ -301,12 +366,13 @@ body.loaded {
 }
 
 .nav-section li {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.125rem;
 }
 
 .nav-link {
     display: block;
-    padding: 0.5rem 1rem;
+    padding: 0.375rem 1rem;
+    margin: 0 0.25rem;
     color: var(--text-secondary);
     text-decoration: none;
     border-radius: var(--border-radius);
@@ -329,7 +395,7 @@ body.loaded {
 .nav-link.active::before {
     content: '';
     position: absolute;
-    left: -2rem;
+    left: -1.75rem;
     top: 50%;
     transform: translateY(-50%);
     width: 3px;
@@ -799,6 +865,7 @@ pre code {
 
 /* Focus styles for keyboard navigation */
 .nav-link:focus,
+.nav-section-toggle:focus,
 .card:focus,
 .section-nav a:focus,
 .mobile-menu-toggle:focus,
