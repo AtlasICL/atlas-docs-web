@@ -1,10 +1,17 @@
-// Navigation and section management
+/**
+ * Main class for managing the documentation site's navigation and functionality.
+ * Handles section switching, mobile menu, search, and keyboard navigation.
+ */
 class DocumentationSite {
     constructor() {
         this.currentSection = 'home';
         this.init();
     }
 
+    /**
+     * Initializes all site functionality in the correct order.
+     * Order matters: navigation must be set up before search functionality.
+     */
     init() {
         this.setupNavigation();
         this.setupMobileMenu();
@@ -14,8 +21,11 @@ class DocumentationSite {
         this.handleInitialLoad();
     }
 
+    /**
+     * Sets up event listeners for all navigation elements.
+     * Handles three types of navigation: sidebar links, section nav, and inline links.
+     */
     setupNavigation() {
-        // Handle navigation link clicks
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -25,7 +35,6 @@ class DocumentationSite {
             });
         });
 
-        // Handle section navigation clicks
         document.querySelectorAll('.section-nav a').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -35,11 +44,11 @@ class DocumentationSite {
             });
         });
 
-        // Handle all internal links (starting with #)
+        // Global click handler for any internal anchor links not already handled
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a');
             if (link && link.getAttribute('href') && link.getAttribute('href').startsWith('#')) {
-                // Skip if it's already handled by nav-link or section-nav
+                // Avoid double-handling links already processed above
                 if (link.classList.contains('nav-link') || link.closest('.section-nav')) {
                     return;
                 }
@@ -53,41 +62,48 @@ class DocumentationSite {
         });
     }
 
+    /**
+     * Displays the specified section and updates browser state.
+     * @param {string} sectionId - The ID of the section to display
+     */
     showSection(sectionId) {
-        // Hide all sections
         document.querySelectorAll('.content-section').forEach(section => {
             section.classList.remove('active');
         });
 
-        // Show target section
         const targetSection = document.getElementById(sectionId);
         if (targetSection) {
             targetSection.classList.add('active');
             this.currentSection = sectionId;
             
-            // Update URL without page reload
+            // Update browser history for proper back/forward navigation
             history.pushState({ section: sectionId }, '', `#${sectionId}`);
             
-            // Scroll to top of content
+            // Reset scroll position for better UX
             document.querySelector('.main-content').scrollTop = 0;
             
-            // Update page title
             this.updatePageTitle(sectionId);
         }
     }
 
+    /**
+     * Updates the active state of navigation links.
+     * @param {HTMLElement} activeLink - The link element to mark as active
+     */
     updateActiveNavLink(activeLink) {
-        // Remove active class from all nav links
         document.querySelectorAll('.nav-link').forEach(link => {
             link.classList.remove('active');
         });
 
-        // Add active class to clicked link
         if (activeLink) {
             activeLink.classList.add('active');
         }
     }
 
+    /**
+     * Updates the page title based on the current section.
+     * @param {string} sectionId - The ID of the current section
+     */
     updatePageTitle(sectionId) {
         const titles = {
             'home': 'Atlas Docs - Development Documentation',
@@ -110,24 +126,25 @@ class DocumentationSite {
         document.title = titles[sectionId] || 'Atlas Docs - Development Documentation';
     }
 
+    /**
+     * Creates and configures the mobile menu toggle functionality.
+     * Handles toggle creation, click events, and outside click detection.
+     */
     setupMobileMenu() {
-        // Create mobile menu toggle button
         const mobileToggle = document.createElement('button');
         mobileToggle.className = 'mobile-menu-toggle';
         mobileToggle.innerHTML = '☰';
         mobileToggle.setAttribute('aria-label', 'Toggle navigation menu');
         
-        // Add mobile toggle to the page
         document.body.insertBefore(mobileToggle, document.body.firstChild);
 
-        // Handle mobile menu toggle
         mobileToggle.addEventListener('click', () => {
             const sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('open');
             mobileToggle.classList.toggle('active');
         });
 
-        // Close mobile menu when clicking outside
+        // Close menu when clicking outside - improves mobile UX
         document.addEventListener('click', (e) => {
             const sidebar = document.querySelector('.sidebar');
             const isClickInsideSidebar = sidebar.contains(e.target);
@@ -139,7 +156,7 @@ class DocumentationSite {
             }
         });
 
-        // Close mobile menu when navigation link is clicked
+        // Auto-close menu after navigation on mobile for better UX
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 if (window.innerWidth <= 1024) {
@@ -150,8 +167,11 @@ class DocumentationSite {
         });
     }
 
+    /**
+     * Handles browser back/forward navigation.
+     * Ensures sections update correctly when user uses browser navigation.
+     */
     setupSmoothScrolling() {
-        // Handle hash changes (browser back/forward)
         window.addEventListener('popstate', (e) => {
             if (e.state && e.state.section) {
                 this.showSection(e.state.section);
@@ -161,9 +181,12 @@ class DocumentationSite {
         });
     }
 
+    /**
+     * Adds keyboard navigation support for accessibility.
+     * Supports ESC to close mobile menu and arrow keys for nav link navigation.
+     */
     setupKeyboardNavigation() {
         document.addEventListener('keydown', (e) => {
-            // ESC key closes mobile menu
             if (e.key === 'Escape') {
                 const sidebar = document.querySelector('.sidebar');
                 const mobileToggle = document.querySelector('.mobile-menu-toggle');
@@ -173,7 +196,7 @@ class DocumentationSite {
                 }
             }
 
-            // Arrow keys for navigation (when focused on nav links)
+            // Enable arrow key navigation when focused on nav links
             if (e.target.classList.contains('nav-link')) {
                 const navLinks = Array.from(document.querySelectorAll('.nav-link'));
                 const currentIndex = navLinks.indexOf(e.target);
@@ -189,8 +212,11 @@ class DocumentationSite {
         });
     }
 
+    /**
+     * Creates and configures the search functionality.
+     * Builds search UI, handles input events, and manages result display.
+     */
     setupSearchFunctionality() {
-        // Create search input
         const searchContainer = document.createElement('div');
         searchContainer.className = 'search-container';
         searchContainer.innerHTML = `
@@ -201,7 +227,6 @@ class DocumentationSite {
             <div class="search-results"></div>
         `;
 
-        // Insert search after sidebar header
         const sidebarHeader = document.querySelector('.sidebar-header');
         sidebarHeader.insertAdjacentElement('afterend', searchContainer);
 
@@ -209,17 +234,13 @@ class DocumentationSite {
         const searchResults = searchContainer.querySelector('.search-results');
         const clearBtn = searchContainer.querySelector('.search-clear-btn');
 
-        // Simple search functionality
         searchInput.addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase().trim();
             
-            // Show/hide clear button based on input content
-            if (e.target.value.length > 0) {
-                clearBtn.style.display = 'block';
-            } else {
-                clearBtn.style.display = 'none';
-            }
+            // Toggle clear button visibility based on input content
+            clearBtn.style.display = e.target.value.length > 0 ? 'block' : 'none';
             
+            // Require minimum 2 characters to avoid too many results
             if (query.length < 2) {
                 searchResults.innerHTML = '';
                 searchResults.style.display = 'none';
@@ -230,7 +251,6 @@ class DocumentationSite {
             this.displaySearchResults(results, searchResults);
         });
 
-        // Clear button functionality
         clearBtn.addEventListener('click', () => {
             searchInput.value = '';
             searchResults.innerHTML = '';
@@ -239,7 +259,7 @@ class DocumentationSite {
             searchInput.focus();
         });
 
-        // Hide search results when clicking outside
+        // Hide results when clicking outside search area
         document.addEventListener('click', (e) => {
             if (!searchContainer.contains(e.target)) {
                 searchResults.style.display = 'none';
@@ -247,6 +267,11 @@ class DocumentationSite {
         });
     }
 
+    /**
+     * Searches through all content sections for the given query.
+     * @param {string} query - The search term to look for
+     * @returns {Array} Array of search result objects
+     */
     searchContent(query) {
         const results = [];
         const sections = document.querySelectorAll('.content-section');
@@ -257,7 +282,7 @@ class DocumentationSite {
             const content = section.textContent.toLowerCase();
 
             if (content.includes(query) || title.toLowerCase().includes(query)) {
-                // Find specific matches within the section
+                // Search within specific elements for more precise results
                 const paragraphs = section.querySelectorAll('p, li, h3, h4');
                 paragraphs.forEach(element => {
                     const text = element.textContent.toLowerCase();
@@ -273,9 +298,15 @@ class DocumentationSite {
             }
         });
 
-        return results.slice(0, 10); // Limit to 10 results
+        return results.slice(0, 10); // Limit results to prevent UI overflow
     }
 
+    /**
+     * Creates a text snippet with highlighted search terms.
+     * @param {string} text - The full text to create a snippet from
+     * @param {string} query - The search term to highlight
+     * @returns {string} HTML snippet with highlighted search terms
+     */
     createSnippet(text, query) {
         const index = text.toLowerCase().indexOf(query.toLowerCase());
         const start = Math.max(0, index - 50);
@@ -285,13 +316,18 @@ class DocumentationSite {
         if (start > 0) snippet = '...' + snippet;
         if (end < text.length) snippet = snippet + '...';
         
-        // Highlight the query
+        // Highlight matching terms with <mark> tags
         const regex = new RegExp(`(${query})`, 'gi');
         snippet = snippet.replace(regex, '<mark>$1</mark>');
         
         return snippet;
     }
 
+    /**
+     * Renders search results in the UI and adds click handlers.
+     * @param {Array} results - Array of search result objects
+     * @param {HTMLElement} container - Container element for results
+     */
     displaySearchResults(results, container) {
         if (results.length === 0) {
             container.innerHTML = '<div class="search-no-results">No results found</div>';
@@ -303,7 +339,7 @@ class DocumentationSite {
                 </div>
             `).join('');
 
-            // Add click handlers to search results
+            // Add navigation functionality to search results
             container.querySelectorAll('.search-result').forEach(resultElement => {
                 resultElement.addEventListener('click', () => {
                     const sectionId = resultElement.dataset.section;
@@ -319,21 +355,28 @@ class DocumentationSite {
         container.style.display = 'block';
     }
 
+    /**
+     * Handles initial page load, including URL hash navigation.
+     * Sets up proper initial state based on URL or defaults to home.
+     */
     handleInitialLoad() {
-        // Handle initial page load with hash
         const hash = window.location.hash.substring(1);
         if (hash) {
             this.showSection(hash);
             const navLink = document.querySelector(`[href="#${hash}"]`);
             this.updateActiveNavLink(navLink);
         } else {
-            // Set initial state
+            // Ensure browser history starts with a proper state
             history.replaceState({ section: 'home' }, '', '#home');
         }
     }
 }
 
-// Global function for card clicks (called from HTML)
+/**
+ * Global function for card clicks (called from HTML onclick attributes).
+ * Provides a bridge between HTML onclick and the DocumentationSite instance.
+ * @param {string} sectionId - The section ID to navigate to
+ */
 function showSection(sectionId) {
     if (window.docSite) {
         window.docSite.showSection(sectionId);
@@ -342,7 +385,10 @@ function showSection(sectionId) {
     }
 }
 
-// Copy code functionality
+/**
+ * Adds copy-to-clipboard functionality to all code blocks.
+ * Creates copy buttons with visual feedback for successful/failed operations.
+ */
 function setupCodeCopyButtons() {
     document.querySelectorAll('pre').forEach(pre => {
         const button = document.createElement('button');
@@ -375,22 +421,21 @@ function setupCodeCopyButtons() {
     });
 }
 
-
-
-// Initialize the documentation site
+// Initialize the documentation site when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     window.docSite = new DocumentationSite();
     setupCodeCopyButtons();
     
-    // Add loading animation
+    // Trigger loading animation
     document.body.classList.add('loaded');
 });
 
-// Handle window resize
+// Handle responsive behavior on window resize
 window.addEventListener('resize', () => {
     const sidebar = document.querySelector('.sidebar');
     const mobileToggle = document.querySelector('.mobile-menu-toggle');
     
+    // Auto-close mobile menu when switching to desktop view
     if (window.innerWidth > 1024) {
         sidebar.classList.remove('open');
         if (mobileToggle) {
@@ -399,7 +444,7 @@ window.addEventListener('resize', () => {
     }
 });
 
-// Service worker registration for offline functionality (optional)
+// Optional: Service worker registration for offline functionality
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')

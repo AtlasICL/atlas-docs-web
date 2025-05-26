@@ -1,11 +1,16 @@
-/* Reset and base styles */
+/* =============================================================================
+   RESET AND BASE STYLES
+   ============================================================================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* CSS Custom Properties - Design System Variables */
 :root {
+    /* Color Palette */
     --primary-color: #2563eb;
     --primary-hover: #1d4ed8;
     --secondary-color: #64748b;
@@ -21,22 +26,29 @@
     --success-color: #10b981;
     --warning-color: #f59e0b;
     --error-color: #ef4444;
+    
+    /* Layout Constants */
     --sidebar-width: 280px;
     --header-height: 60px;
     
+    /* Typography */
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, 'Courier New', monospace;
     
+    /* Shadows - Consistent elevation system */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     
+    /* Border Radius */
     --border-radius: 8px;
     --border-radius-lg: 12px;
     --transition: all 0.2s ease-in-out;
 }
 
-
+/* =============================================================================
+   BASE ELEMENTS
+   ============================================================================= */
 
 html {
     scroll-behavior: smooth;
@@ -52,17 +64,21 @@ body {
     transition: opacity 0.3s ease-in-out;
 }
 
+/* Loading state - prevents flash of unstyled content */
 body.loaded {
     opacity: 1;
 }
 
-/* Container and layout */
+/* =============================================================================
+   LAYOUT COMPONENTS
+   ============================================================================= */
+
 .container {
     display: flex;
     min-height: 100vh;
 }
 
-/* Mobile menu toggle */
+/* Mobile menu toggle - hidden on desktop, shown on mobile */
 .mobile-menu-toggle {
     display: none;
     position: fixed;
@@ -89,7 +105,10 @@ body.loaded {
     background-color: var(--error-color);
 }
 
-/* Sidebar */
+/* =============================================================================
+   SIDEBAR NAVIGATION
+   ============================================================================= */
+
 .sidebar {
     width: var(--sidebar-width);
     background-color: var(--surface-color);
@@ -102,6 +121,7 @@ body.loaded {
     transition: var(--transition);
 }
 
+/* Custom scrollbar styling for webkit browsers */
 .sidebar::-webkit-scrollbar {
     width: 6px;
 }
@@ -138,9 +158,10 @@ body.loaded {
     font-size: 0.875rem;
 }
 
+/* =============================================================================
+   SEARCH FUNCTIONALITY
+   ============================================================================= */
 
-
-/* Search functionality */
 .search-container {
     padding: 0 2rem 1rem;
     position: relative;
@@ -260,6 +281,7 @@ body.loaded {
     font-size: 0.875rem;
 }
 
+/* Navigation sections and links */
 .nav-section {
     margin-bottom: 2rem;
     padding: 0 2rem;
@@ -303,6 +325,7 @@ body.loaded {
     color: white;
 }
 
+/* Active link indicator - visual cue for current section */
 .nav-link.active::before {
     content: '';
     position: absolute;
@@ -314,7 +337,10 @@ body.loaded {
     background-color: var(--primary-color);
 }
 
-/* Main content */
+/* =============================================================================
+   MAIN CONTENT AREA
+   ============================================================================= */
+
 .main-content {
     flex: 1;
     margin-left: var(--sidebar-width);
@@ -327,7 +353,7 @@ body.loaded {
     padding: 3rem 2rem;
 }
 
-/* Content sections */
+/* Section visibility management */
 .content-section {
     display: none;
     animation: fadeIn 0.3s ease-in-out;
@@ -348,7 +374,10 @@ body.loaded {
     }
 }
 
-/* Typography */
+/* =============================================================================
+   TYPOGRAPHY
+   ============================================================================= */
+
 h1 {
     font-size: 2.5rem;
     font-weight: 700;
@@ -394,7 +423,6 @@ p {
     margin-bottom: 2rem;
 }
 
-/* Links */
 a {
     color: var(--accent-color);
     text-decoration: none;
@@ -406,7 +434,6 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Lists */
 ul, ol {
     margin: 1rem 0;
     padding-left: 2rem;
@@ -418,7 +445,10 @@ li {
     line-height: 1.6;
 }
 
-/* Code blocks */
+/* =============================================================================
+   CODE BLOCKS AND SYNTAX HIGHLIGHTING
+   ============================================================================= */
+
 code {
     font-family: var(--font-mono);
     font-size: 0.875rem;
@@ -447,7 +477,7 @@ pre code {
     line-height: 1.5;
 }
 
-/* Copy code button */
+/* Copy button for code blocks */
 .copy-code-btn {
     position: absolute;
     top: 0.75rem;
@@ -469,7 +499,11 @@ pre code {
     border-color: var(--primary-color);
 }
 
-/* Cards grid */
+/* =============================================================================
+   INTERACTIVE COMPONENTS
+   ============================================================================= */
+
+/* Home page cards grid */
 .cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -515,7 +549,7 @@ pre code {
     line-height: 1.5;
 }
 
-/* Section navigation */
+/* Section navigation breadcrumbs */
 .section-nav {
     display: flex;
     flex-wrap: wrap;
@@ -545,7 +579,10 @@ pre code {
     text-decoration: none;
 }
 
-/* Images */
+/* =============================================================================
+   MEDIA AND CONTENT ELEMENTS
+   ============================================================================= */
+
 .image-container {
     margin: 2rem 0;
     text-align: center;
@@ -566,7 +603,7 @@ pre code {
     font-style: italic;
 }
 
-/* Notes and warnings */
+/* Callout boxes for important information */
 .note, .warning {
     padding: 1rem 1.5rem;
     border-radius: var(--border-radius);
@@ -590,7 +627,11 @@ pre code {
     color: var(--text-primary);
 }
 
-/* Responsive design */
+/* =============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================= */
+
+/* Tablet and small desktop breakpoint */
 @media (max-width: 1024px) {
     .mobile-menu-toggle {
         display: block;
@@ -614,6 +655,7 @@ pre code {
     }
 }
 
+/* Mobile breakpoint */
 @media (max-width: 768px) {
     :root {
         --sidebar-width: 100%;
@@ -652,6 +694,7 @@ pre code {
     }
 }
 
+/* Small mobile breakpoint */
 @media (max-width: 480px) {
     .sidebar-header {
         padding: 0 1rem 1.5rem;
@@ -684,7 +727,10 @@ pre code {
     }
 }
 
-/* Print styles */
+/* =============================================================================
+   PRINT STYLES
+   ============================================================================= */
+
 @media print {
     .sidebar {
         display: none;
@@ -734,7 +780,11 @@ pre code {
     }
 }
 
-/* Accessibility improvements */
+/* =============================================================================
+   ACCESSIBILITY AND USER PREFERENCES
+   ============================================================================= */
+
+/* Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -758,13 +808,13 @@ pre code {
     outline-offset: 2px;
 }
 
-/* Selection styles */
+/* Text selection styling */
 ::selection {
     background-color: var(--primary-color);
     color: white;
 }
 
-/* Smooth scrolling for anchor links */
+/* Smooth scrolling with proper offset for anchor links */
 html {
     scroll-padding-top: 2rem;
 } 
