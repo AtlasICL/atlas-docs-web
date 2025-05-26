@@ -165,6 +165,7 @@ body.loaded {
 .search-container {
     padding: 0 2rem 1rem;
     position: relative;
+    margin-bottom: 1rem;
 }
 
 .search-input-wrapper {
@@ -287,6 +288,10 @@ body.loaded {
     padding: 0 1.75rem;
 }
 
+.nav-section:first-of-type {
+    margin-top: 1.5rem;
+}
+
 .nav-section h3 {
     font-size: 0.875rem;
     font-weight: 600;
@@ -302,7 +307,7 @@ body.loaded {
     background: none;
     border: none;
     padding: 0.375rem 0;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.375rem;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -318,8 +323,7 @@ body.loaded {
 }
 
 .nav-section-toggle:focus {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
+    outline: none;
 }
 
 .nav-section-toggle h3 {
@@ -351,7 +355,7 @@ body.loaded {
     transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
     max-height: 500px; /* Generous max-height for open state */
     opacity: 1;
-    padding: 0.25rem 0;
+    padding: 0.125rem 0 0.25rem 0;
 }
 
 .nav-subsection.collapsed {
@@ -864,8 +868,7 @@ pre code {
 }
 
 /* Focus styles for keyboard navigation */
-.nav-link:focus,
-.nav-section-toggle:focus,
+.nav-link:focus:not(.active),
 .card:focus,
 .section-nav a:focus,
 .mobile-menu-toggle:focus,
